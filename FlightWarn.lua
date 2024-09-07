@@ -9,7 +9,7 @@ FlightWarnSettings = {
 }
 
 
--- function to call appropriately PlaySound* function based on sound string
+-- function to call appropriately PlaySound function based on sound string
 local function PlaySoundHelper(sound, channel)
   local soundlc = strlower(sound)
   
@@ -37,18 +37,18 @@ local flightFatigueTimer = nil
 local lastFatigueWarn = nil
 FlightWarn = CreateFrame("Frame")
 FlightWarn:HookScript("OnUpdate", function(self, time)
-  --user is flying and moving
+  -- user is flying and moving
   if IsFlying() and GetRealSpeed() > 0 then
-    --user was not flying last update
+    -- user was not flying last update
     if not startFlightTime then
       startFlightTime = GetTime()
       previousAngle = GetPlayerFacing()
       previousSpeed = GetRealSpeed()
-    --user was flying before
+    -- user was flying before
     else
       local newAngle = GetPlayerFacing()
       local newSpeed = GetRealSpeed()
-      --user is facing different direction, reset start time
+      -- user is facing different direction, reset start time
       if newAngle ~= previousAngle or newSpeed ~= previousSpeed then
         startFlightTime = GetTime()
       end
@@ -57,9 +57,9 @@ FlightWarn:HookScript("OnUpdate", function(self, time)
 
       local exhaustionName, _, _, exhaustionScale = GetMirrorTimerInfo(1)
       local exhaustionTime = GetMirrorTimerProgress("EXHAUSTION")
-      --if player has been flying into fatigue for 5s, play sound     
+      -- if player has been flying into fatigue for 5s, play sound     
       if exhaustionName == "EXHAUSTION" and exhaustionScale == -1 and exhaustionTime > 0 and exhaustionTime < (60000 - (FlightWarnSettings.delayFatigue * 1000)) then
-        --repeat warning every 10s
+        -- repeat warning every 10s
         if not lastFatigueWarn or GetTime() - lastFatigueWarn >= FlightWarnSettings.repeatFatigue then
           if FlightWarnSettings.enableFatigue then
             PlaySoundHelper(FlightWarnSettings.soundFatigue, "Master")
@@ -69,18 +69,18 @@ FlightWarn:HookScript("OnUpdate", function(self, time)
         end
       end
 
-      --if player has been flying same direction for a minute, play sound
+      -- if player has been flying same direction for a minute, play sound
       if GetTime() - startFlightTime >= FlightWarnSettings.delayStraightLine then
         if FlightWarnSettings.enableStraightLine then
           PlaySoundHelper(FlightWarnSettings.soundStraightLine, "Master")
           print("You have been flying in a straight line for "..FlightWarnSettings.delayStraightLine.." seconds!")
         end
 
-        --reset timer
+        -- reset timer
         startFlightTime = GetTime()
       end
     end
-  --user is not flying, clear flying time
+  -- user is not flying, clear flying time
   elseif startFlightTime then
     startFlightTime = nil
     previousAngle = nil
