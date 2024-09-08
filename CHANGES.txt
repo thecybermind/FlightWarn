@@ -1,0 +1,24 @@
+v2.0
+* TOC
+* removed libraries
+v1.4.3
+* TOC
+* removed GetUnitPitch checks
+* changed GetRealSpeed for better speed results while in a vehicle, possession, or taxi
+v1.4.2
+* now saves profile data
+v1.4.1
+* wrong TOC
+v1.4
+* TOC bump
+v1.3.2
+* TOC bump
+v1.3
+* TOC bump
+v1.2
+* Added "Play" button next to sound inputs
+* Further clarified options
+v1.1
+* Clarified options on config screen
+v1.0
+* Initial release
